@@ -1,0 +1,43 @@
+Rewards array: [1, -1, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Transitions array shape: (16, 4, 16)
+rewards
+1.00	-1.00	0.00	0.00	
+0.00	-1.00	0.00	0.00	
+0.00	0.00	0.00	0.00	
+0.00	0.00	0.00	0.00	
+visualize a random policy
+.	.	v	^	
+>	.	<	>	
+<	<	^	^	
+<	^	^	^	
+
+--- Value Iteration ---
+
+Values from Value Iteration:
+0.00	0.00	0.42	0.44	
+0.77	0.00	0.45	0.48	
+0.71	0.59	0.55	0.51	
+0.66	0.62	0.58	0.54	
+
+Extracting Optimal Policy:
+
+Optimal Policy:
+.	.	>	v	
+^	.	>	v	
+^	v	<	<	
+^	<	<	<	
+--- policy evaluation ---
+
+--- Policy Iteration ---
+
+Optimal Policy:
+.	.	>	v	
+^	.	>	v	
+^	v	<	<	
+^	<	<	<	
+
+Values from Policy Iteration:
+0.00	0.00	0.42	0.44	
+0.77	0.00	0.45	0.48	
+0.71	0.59	0.55	0.51	
+0.66	0.62	0.58	0.54	
