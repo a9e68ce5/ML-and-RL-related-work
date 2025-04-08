@@ -62,7 +62,7 @@ Each maze contains:
 
 ## 📚 Reference
 
-- **Paper**: [Breadth-First Exploration on Adaptive Grid for Reinforcement Learning (NeurIPS 2023)](https://arxiv.org/abs/2306.11544)
+- **Paper**: [Breadth-First Exploration on Adaptive Grid for Reinforcement Learning (NeurIPS 2023)]([https://arxiv.org/abs/2306.11544](https://openreview.net/forum?id=59MYoLghyk))
 - This is a simplified conceptual visualization, not a full reproduction of the paper
 
 ---
