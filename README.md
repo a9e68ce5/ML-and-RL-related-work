@@ -62,7 +62,7 @@ A Kaggle classification project aiming to detect malicious Android applications.
 - Final model: **Adaboost with SVM + DT + Perceptron**  
 - Achieved **~90% accuracy on Kaggle**
 
-📁 [View this project](./ML/Android-Malware-Detection/README.md)
+📁 [View this project](./Android-Malware-Detection/README.md)
 
 ---
 
