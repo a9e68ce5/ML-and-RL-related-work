@@ -1,0 +1,59 @@
+\documentclass[12pt, fullpage,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{url}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{booktabs}
+\usepackage{pgfplotstable}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{hyperref}
+\usepackage{paralist, tabularx}
+
+
+\newcommand{\semester}{Spring 2025}
+\newcommand{\assignmentId}{1}
+\newcommand{\releaseDate}{January 14, 2025}
+\newcommand{\dueDate}{January 28, 2025}
+
+
+\newcommand{\bx}{{\bf x}}
+\newcommand{\bw}{{\bf w}}
+\DeclareMathOperator{\sgn}{sgn}
+
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\newenvironment{non-python-note}
+{\begin{tcolorbox}[breakable, enhanced, title=Note for non-Python Users]}
+{\end{tcolorbox}}
+
+\title{CS 6350, DS 4350: Machine Learning \semester}
+\author{Homework \assignmentId}
+\date{Handed out: \releaseDate\\
+  Due date: \dueDate}
+
+\begin{document}
+\maketitle
+
+\input{question1}
+
+\pagebreak
+
+\input{question2}
+
+\pagebreak
+
+\input{question3}
+
+\pagebreak
+
+\input{submission-instructions}
+
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

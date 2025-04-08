@@ -1,0 +1,181 @@
+
+\section{Decision Trees on the Car Evaluation Dataset}
+\label{sec:decision-tree-code}
+
+\noindent In this assignment, we will work with the Car Evaluation dataset from the UCI Machine Learning Repository (\url{https://archive.ics.uci.edu/dataset/19/car+evaluation}). 
+This dataset consists of examples with various attributes related to cars and their evaluations. Each row in the dataset has the following attributes:
+
+\begin{itemize}\itemsep0em
+    \item \textbf{Buying}: The buying price of the car (values: vhigh, high, med, low).
+    \item \textbf{Maint}: The maintenance price of the car (values: vhigh, high, med, low).
+    \item \textbf{Doors}: The number of doors (values: 2, 3, 4, 5more).
+    \item \textbf{Persons}: The capacity of persons (values: 2, 4, more).
+    \item \textbf{Lug\_boot}: The size of the luggage boot (values: small, med, big).
+    \item \textbf{Safety}: The safety rating of the car (values: low, med, high).
+\end{itemize}
+
+\noindent The goal is to classify cars into one of four classes: \texttt{unacc} (unacceptable), \texttt{acc} (acceptable), \texttt{good} (good), \texttt{vgood} (very good).
+\textbf{For this assignment, you will implement and evaluate various decision tree models on the Car Evaluation dataset.}
+
+\paragraph{Programming notes.} We \textbf{strongly} encourage you to use Python. 
+If you choose not to, see the note at the end of this document for additional instructions, and skip the rest of this paragraph.
+For this assignment's coding questions, we will use autograder to run and grade your code on Gradescope. 
+This means as soon as you submit, autograder runs your code and assigns you points. 
+Remember that you are not allowed to use any machine learning libraries (e.g. \texttt{scikit-learn}, \texttt{tensorflow}, \texttt{pytorch}, etc.), 
+but can use libraries with mathematical functions like \texttt{numpy} and data management libraries like \texttt{pandas}.
+By default, you can use any packages provided in the \texttt{requirements.txt} file.
+We will evaluate your code using Python 3.12.8, but you can use any version >= 3.7.
+If you want to use an additional package not specified, we must approve it first.
+
+\subsection*{Files and Directories Provided}
+
+The following files and directories are provided to you for this homework:
+
+\begin{itemize}\itemsep0em
+    \item \textbf{\texttt{model.py}}:
+    \begin{itemize}\itemsep0em
+        \item This file will contain most of your code changes for this homework. 
+        This is where you'll implement your baseline and decision tree models.
+        \item Implement the \texttt{train()} and \texttt{predict()} logic for the \texttt{MajorityBaseline} model first. 
+        Once you've completed this, and implemented the necessary functions in \texttt{train.py} below, you should be able to train and evaluate your \texttt{MajorityBaseline} model. 
+        See \texttt{README.md} for more details.
+        \item Implement the \texttt{train()} and \texttt{predict()} logic for the \texttt{DecisionTree} model. 
+        You should be able to train and evaluate your \texttt{MajorityBaseline} model by running the completed \texttt{train.py} script. 
+        See \texttt{README.md} for more details.
+        \item Focus on writing modular and reusable methods. 
+        You can add any additional functions, classes, etc. that you need, but \textbf{do not change the function signatures we've provided}. 
+        If you do, your code may not run with our autograder.
+    \end{itemize}
+
+    \item \textbf{\texttt{train.py}}:
+    \begin{itemize}\itemsep0em
+        \item This file contains training and evaluation code. 
+        During the homework, you may run \texttt{train.py} to test and debug your implementations. 
+        See \texttt{README.md} for more details on how to run this script. 
+        It's up to you whether you want to use the \texttt{train()} and \texttt{evaluate()} functions in this file (we \textbf{strongly} recommend that you do), but you must implement the \texttt{calculate\_accuracy()} method to receive full points.
+    \end{itemize}
+    
+    \item \textbf{\texttt{cross\_validation.py}}:
+    \begin{itemize}\itemsep0em
+        \item This file contains the code for running cross-validation on the decision tree model. 
+        Implement the \texttt{cross\_validation()} function. 
+        See \texttt{README.md} for details on how to run this script.
+    \end{itemize}
+    
+    \item \textbf{\texttt{data.py}}:
+    \begin{itemize}\itemsep0em
+        \item Contains helper methods for reading the training, test, and cross-validation datasets. 
+        You do not need to make any changes to this file.
+    \end{itemize}
+    
+    \item \textbf{\texttt{data/}} (Directory):
+    \begin{itemize}\itemsep0em
+        \item This directory contains the dataset files required for the assignment.
+        \item \texttt{train.csv}: The main training dataset.
+        \item \texttt{test.csv}: The test dataset to evaluate your models.
+        \item \texttt{cv/fold1.csv}, \texttt{fold2.csv}, ..., \texttt{fold5.csv}: Contains 5 files, one for each fold during cross-validation. 
+        These files are created by splitting the \texttt{train.csv} dataset into 5 folds. 
+        You will use these files for cross-validation experiments.
+    \end{itemize}
+\end{itemize}
+
+
+\subsection*{Cross-Validation}
+
+The depth of the tree is a \emph{hyper-parameter} to the decision tree algorithm
+that helps reduce overfitting. By depth, we refer to the maximum path length
+from the root to any leaf. That is, a tree with just a single node has depth 0,
+a tree with a root attribute directly leading to labels in one step has depth 1
+and so on. You will see later in the semester that many machine learning
+algorithm (SVM, logistic-regression, etc.) require choosing hyper-parameters
+before training commences, and this choice can make a big difference in the
+performance of the learners.  One way to determine a good hyper-parameter values
+to use a technique called \emph{cross-validation}.
+
+As usual, we have a training set and a test set. Our goal is to discover good
+hyperparameters using the training set \emph{only}. Suppose we have a
+hyperparameter (e.g. the depth of a decision tree) and we wish to ascertain
+whether it is a good choice or not. To do so, we can set aside some of the
+training data into a subset called the {\em validation} set and train on the
+rest of the training data. When training is finished, we can test the resulting
+classifier on the validation data. This allows us to get an idea of how well the
+particular choice of hyper-parameters does.
+
+However, since we did not train on the whole dataset, we may have introduced a
+statistical bias in the classifier caused by the choice of the validation
+set. To correct for this, we will need to repeat this process multiple times for
+different choices of the validation set. That is, we need to train many classifiers
+with different subsets of the training data removed and average out the accuracy
+across these trials.
+
+For problems with small data sets, a popular method is the leave-one-out
+approach. For each example, a classifier is trained on the rest of the data and
+the chosen example is then evaluated. The performance of the classifier is the
+average accuracy on all the examples.  The downside to this method is for a data
+set with $n$ examples we must train $n$ different classifiers. Of course, this
+is not practical in general, so we will hold out subsets of the data many times
+instead.
+
+Specifically, for this problem, you should implement $k$-fold cross-validation.
+
+The general approach for $k$-fold cross-validation is the following: Suppose we
+want to evaluate how good a particular hyper-parameter is. We randomly split the
+training data into $k$ equal sized parts. Now, we will train the model on all
+but one part with the chosen hyper-parameter and evaluate the trained model on
+the remaining part. We should repeat this $k$ times, choosing a different part
+for evaluation each time. This will give us $k$ values of accuracy. Their
+average cross-validation accuracy gives we an idea of how good this choice of
+the hyper-parameter is. To find the best value of the hyper-parameter, we will
+need to repeat this procedure for different choices of the hyper-parameter. Once
+we find the best value of the hyper-parameter, we can use the value to retrain
+we classifier using the entire training set.
+\\
+
+
+\noindent{With these points in mind, here are the coding challenges you will implement as a part of this assignment. }
+
+
+\begin{enumerate}
+    \item \textbf{Accuracy [10 points]}\\
+        To ensure that your implementation of accuracy calculation is correct, you will implement the method \texttt{calculate\_accuracy()} in \texttt{train.py}. 
+        This method should compute the accuracy of predictions compared to the ground truth labels. 
+        We will test your code using hidden gold labels and prediction labels.
+
+    \item \textbf{Majority Baseline Accuracy [10 points]}\\
+        Compute the baseline accuracy of the dataset by always predicting the majority class from the training data. 
+        Clearly state the majority class and the corresponding accuracy. 
+        Implement the \texttt{MajorityBaseline} class in \texttt{model.py}, along with the \texttt{train()} and \texttt{evaluate()} functions in \texttt{train.py}.
+        Report the accuracy on both the train and test splits.
+        In your report, address the following: The label distribution seems pretty imbalanced.
+        Why might accuracy be a bad metric for measuring the quality of a model on this dataset?
+
+    \item \textbf{Simple Decision Tree [15 points]}\\
+        Implement a decision tree classifier that...
+        \begin{itemize}\itemsep0em
+            \item ...does not have any depth limit.
+            \item ...is trained on the training data using entropy as the information gain criterion.
+            \item ...is evaluated on both the train and test data once it's trained.
+        \end{itemize}
+        Implement the \texttt{DecisionTree} class in \texttt{model.py}, along with the \texttt{train()} and \texttt{evaluate()} functions in \texttt{train.py}.
+        If you do it right, you shouldn't have to change anything in \texttt{train.py} from your majority baseline implementation.
+        Report your accuracy on both the train and test splits.
+
+    \item \textbf{Decision Tree with Cross-Validation [15 points]}\\
+        Implement a depth limit in your decision tree implementation.
+        Next, run cross-validation on your decision tree using the cross-validation folds we've provided and depth limit values $[1,2,3,4,5,6]$.
+        You will implement the depth limit in the \texttt{DecisionTree} class in \texttt{model.py}, and cross-validation in \texttt{cross\_validation.py}.
+        Report the optimal depth limit learned from cross-validation \textbf{[5 points]} and the corresponding best cross-validation average accuracy \textbf{[10 points]}.
+
+    \item \textbf{Decision Tree with Best Depth from CV [15 points]}\\
+        Re-run your training and evaluation code in \texttt{train.py}, but using your optimal depth limit learned during cross-validation.
+        Report your accuracy on both the train and test splits.
+   
+
+\end{enumerate}
+
+Your submission will be evaluated on:
+
+\begin{itemize}\itemsep0em
+    \item The accuracy of your decision tree on the training and test splits.
+    \item The accuracy on a hidden test split (provided by us during grading).
+\end{itemize}

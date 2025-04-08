@@ -1,0 +1,44 @@
+\section{Submission Instructions}
+
+You will submit two components on Gradescope:
+
+\begin{itemize}
+    \item \textbf{Report}: Submit your report as a pdf, containing your answers to the questions in 
+    Section~\ref{sec:decision-trees} and your findings/results from the coding sections to the 
+    corresponding assignment in Gradescope.
+    \item \textbf{Code}: If you're working in Python, submit your \texttt{cross\_validation.py}, 
+    \texttt{model.py}, and \texttt{train.py} files to the corresponding assignment in Gradescope.
+    If you're not using python, submit your executable files following the instructions 
+    below.
+\end{itemize}
+
+
+\begin{non-python-note}
+    If you're not using Python, we ask that you make your code CLI executable from the CADE machines. 
+    Please also add a REAMDE.md to your submission with instructions on how to run your code.
+
+    \vspace{1em}
+
+    Specifically, you need to have an executable file that trains and evaluates both the majority baseline classifier and your decision tree.
+    It should print the train and test accuracies (the same values your include in your report) to the console.
+    It should accept the following command-line flags:
+    \begin{compactitem}
+        \item \texttt{-t TRAIN\_PATH}: path to train csv file
+        \item \texttt{-e EVAL\_PATH}: path to test csv file
+        \item \texttt{-m MODEL\_TYPE}: takes one of \texttt{["majority\_baseline", "decision\_tree"]}
+        \item \texttt{-d DEPTH\_LIMIT}: takes an integer and sets the depth-limit hyperparameter
+        \item \texttt{-i IG\_CRITERTION}: takes one of \texttt{["entropy", "gini"]} (only needed if you're in CS 6350)
+    \end{compactitem}
+
+    \vspace{1em}
+
+    Similarly, you need to have a different executable file that runs cross-validation on your decision tree, and accepts the flags \texttt{-c CV\_PATH} pointing to your \texttt{cv/} directory, 
+    \texttt{-d DEPTH\_LIMIT} and \texttt{-i IG\_CRITERTION} (only needed if you're in CS 6350).
+    It should print the best CV accuracy and corresponding hyperparameters (the same values your include in your report) to the console.
+
+    \vspace{1em}
+
+    We won't be able to assign partial credit for non-Python submissions if the code doesn't run.
+    We also won't be able to provide debugging assistance during office hours.
+    See the FAQ section on the class website for instructions on how to access CADE, and how to turn your code into a command-line executable.
+\end{non-python-note}

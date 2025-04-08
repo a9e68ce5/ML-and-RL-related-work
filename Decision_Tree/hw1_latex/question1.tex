@@ -1,0 +1,133 @@
+\section{Decision Trees}
+\label{sec:decision-trees}
+
+\begin{enumerate}
+
+
+\item~[25 points] 
+  Catherine loves going to the beach, but she keeps going on days when the conditions aren't right. 
+  She needs your help.
+  You need to build a decision tree that will help Catherine decide if it's a good day to go to the beach. 
+  You need to make the decision based on four features described below:
+
+  \begin{enumerate}
+  \item\textbf{Weather} (\textit{Sunny, Cloudy, Rainy}): Describes the weather.
+  \item\textbf{Temp} (\textit{Hot, Warm, Cold}): Describes the temperature.
+  \item\textbf{Crowd} (\textit{Busy, Empty}): Describes how many people are at the beach.
+  \item\textbf{Time} (\textit{Morning, Afternoon}): Describes what time Catherine will get to the beach.
+  \end{enumerate}
+
+  You are given the following dataset which contains data for 10 different days. 
+  For each day, the values of the above four features are listed. 
+  The label of whether the conditions were ideal for Catherine to go to the beach is also provided.
+
+  \begin{table}[h]
+    \centering
+    \begin{tabular}{llll|l}
+      \hline
+      Weather & Temp & Crowd & Time      & Conditions \\ \hline
+      Cloudy  & Hot  & Empty & Morning   & $+$        \\
+      Sunny   & Hot  & Busy  & Afternoon & $-$        \\
+      Cloudy  & Warm & Busy  & Morning   & $-$        \\
+      Sunny   & Cold & Empty & Morning   & $+$        \\
+      Rainy   & Cold & Busy  & Afternoon & $-$        \\
+      Cloudy  & Warm & Empty & Morning   & $+$        \\
+      Rainy   & Warm & Empty & Morning   & $+$        \\
+      Cloudy  & Cold & Busy  & Morning   & $-$        \\
+      Sunny   & Warm & Busy  & Afternoon & $+$        \\
+      Cloudy  & Hot  & Empty & Morning   & $+$        \\ \hline
+    \end{tabular}
+    \caption{Training data for the beach prediction problem.}
+    \label{tab:decision-tree-train}
+  \end{table}
+
+
+  \begin{enumerate}
+  \item~[5 points] How many possible functions are there to map these four features to a boolean decision? 
+  How many functions are consistent with the given training dataset?
+  \item~[3 points] What is the entropy of the labels in this data? 
+  When calculating entropy, the base of the logarithm should be base 2.
+  \item~[4 points] Compute the information gain of each feature and enter it into Table~\ref{tab:entropy-ig}. 
+  Specify upto 3 decimal places.
+  
+    \begin{table}[h]
+      \centering
+      \begin{tabular}{c|c}
+
+        \hline
+        Feature & Information Gain \\ \hline
+        Weather &                  \\
+        Temp    &                  \\
+        Crowd   &                  \\
+        Time    &                  \\ \hline
+      \end{tabular}
+      \caption{Information gain for each feature.}
+      \label{tab:entropy-ig}
+    \end{table}
+  
+  \item~[1 points] Which attribute will you use to construct the root of the tree using the information gain heuristic of the ID3 algorithm?
+  \item~[8 points] Using the root that you selected in the previous question, construct a decision tree that represents the data. 
+  You do not have to use the ID3 algorithm here, you can show any tree with the chosen root.
+  \item~[4 points] Suppose you are given three more examples, listed in Table~\ref{tab:decision-tree-test}. 
+  Use your decision tree to predict the label for each example. 
+  Also report the accuracy of the classifier that you have learned.
+  
+    \begin{table}[h!]
+      \centering
+      \begin{tabular}{cccc|c}
+        \hline
+        Weather & Temp & Crowd & Time      & Conditions \\ \hline
+        Cloudy  & Hot  & Busy  & Morning   & $-$        \\
+        Sunny   & Cold & Busy  & Afternoon & $-$        \\
+        Rainy   & Warm & Empty & Afternoon & $+$        \\ \hline
+      \end{tabular}
+      \caption{Test data for beach prediction problem}
+      \label{tab:decision-tree-test}
+    \end{table}
+
+  \end{enumerate}
+
+
+
+\item~[10 points] Recall that in the ID3 algorithm, we want to identify the best attribute that splits the examples that are relatively pure in one label.
+  Aside from entropy, which we saw in class and you used in the previous question, there are other methods to measure impurity.
+
+  We will now develop a variant of the ID3 algorithm that does not use entropy. If, at some node, we stopped growing the tree and assign the most common label of the remaining examples at that node, then the impurity at that node can be measured using the Gini impurity, defined as:
+  %
+  $$GiniImpurity = 1 - \sum_{i}p_i^2$$
+  %
+  where $p_i$ is the fraction of examples that are labeled with the $i^{th}$ label. In other words, the gini impurity measures the frequency at which any element of the dataset will be mislabelled when it is randomly labeled.
+
+
+
+  \begin{enumerate}
+  \item~[2 points]   Notice that $GiniImpurity$ can be thought of as a measure of impurity just like entropy. Just like we used entropy to define information gain, we can define a new version of information gain that uses $GiniImpurity$ in place of entropy. Write down an expression that defines a new version of information gain that uses $GiniImpurity$ in place of entropy.
+
+  \item~[6 points] Calculate the value of your newly defined information gain from the previous question for the four features in the beach dataset from ~\ref{tab:decision-tree-train}. Use 3 significant digits. Enter the information gain into Table~\ref{tab:gini-ig}.
+
+    \begin{table}[h!]
+      \centering
+      \begin{tabular}{c|c}
+        \hline
+        Feature & Information Gain (using Gini impurity) \\ \hline
+        Weather &                  \\
+        Temp    &                  \\
+        Crowd   &                  \\
+        Time    &                  \\ \hline
+      \end{tabular}
+      \caption{Information gain for each feature.}\label{tab:gini-ig}
+    \end{table}
+
+  \item~[2 points] According to your results in the last question, which
+    attribute should be the root for the decision tree?  Do these two measures
+    (entropy and Gini impurity) lead to the same tree?
+  \end{enumerate}
+
+\end{enumerate}
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

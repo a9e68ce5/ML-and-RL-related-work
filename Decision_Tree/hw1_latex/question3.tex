@@ -1,0 +1,40 @@
+\section{CS 6350 only: Decision Trees with Collision Entropy}
+\label{sec:decision-tree-code-collision}
+
+Closely related to the Gini Impurity  is the Collision Entropy which can be defined as:
+
+\[
+  CollisionEntropy = -\log_2\left(\sum_i p_i^2\right) 
+\]
+
+Repeat the steps from Section~\ref{sec:decision-tree-code}, but using Collision Entropy
+to define information gain criterion instead of the standard entropy we saw in class:
+
+\begin{enumerate}\itemsep0em
+  \item \textbf{Simple Decision Tree w/ Collision Entropy [3 points]}\\
+    Implement a decision tree classifier that...
+    \begin{itemize}\itemsep0em
+      \item ...does not have any depth limit.
+      \item ...is trained using \textbf{Collision Entropy} as the information gain criterion
+      \item ...is evaluated on both the train and test data once it's trained
+    \end{itemize}
+    You should be able to tweak your existing decision tree code in \texttt{model.py}, using the \texttt{self.ig\_criterion} variable to decide whether to use entropy or collision entropy.
+    You shouldn't need to change your code \texttt{train.py} if you've already completed Section~\ref{sec:decision-tree-code}.
+    See \texttt{REAMDE.md} for instructions on how to run \texttt{train.py} with the \texttt{--ig\_criterion} or \texttt{-i} flag.
+    Report your accuracy on both the train and test splits.
+
+\item \textbf{Decision Tree with Cross-Validation [3 points]}\\
+    Run cross-validation on your Collision Entropy decision tree using the cross-validation folds we've provided and depth limit values $[1,2,3,4,5,6]$.
+    You shouldn't need to change your code \texttt{cross\_validation.py} if you've already completed Section~\ref{sec:decision-tree-code}.
+    See \texttt{REAMDE.md} for instructions on how to run \texttt{cross\_validation.py} with the \texttt{--ig\_criterion} or \texttt{-i} flag.
+    Report the optimal depth limit learned from cross-validation and the corresponding best cross-validation average accuracy.
+
+\item \textbf{Decision Tree with Best Depth from CV [4 points]}\\
+    Re-run your training and evaluation code from \texttt{train.py} with Collision Entropy, but using your optimal depth limit learned during cross-validation.
+    Report your accuracy on both the train and test splits.
+\end{enumerate}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "hw1"
+%%% End:
